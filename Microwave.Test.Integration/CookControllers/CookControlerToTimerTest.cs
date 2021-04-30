@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace Microwave.Test.Integration.CookControllers
 {
-    class CookControlerToTimer
+    class CookControlerToTimerTest
     {
         private Output output_;
         private PowerTube PT_;
