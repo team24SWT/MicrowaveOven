@@ -12,7 +12,6 @@ namespace Microwave.Test.Integration
     class UserInterfaceToLightTest
     {
         private Output output_;
-        private PowerTube PT_;
         private Display display_;       
         private StringWriter SW_;
         private Light light_;
@@ -30,7 +29,6 @@ namespace Microwave.Test.Integration
         public void Setup()
         {
             output_ = new Output();
-            PT_ = new PowerTube(output_);
             display_ = new Display(output_);
             light_ = new Light(output_);
 
