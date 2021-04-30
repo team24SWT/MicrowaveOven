@@ -14,7 +14,7 @@ namespace Microwave.Test.Integration
         private PowerTube PT_;
         private Display display_;
         private CookController CC_;
-        private System.IO.StringWriter SW_;
+        private StringWriter SW_;
         private ITimer timer_;
         private IUserInterface UI_;
      
@@ -45,7 +45,7 @@ namespace Microwave.Test.Integration
         [Test]
         public void CalledTurnOff()
         {
-            int time = 60;
+            int time = 3600;
             int power = 200;
             string str = "PowerTube turned off";
             CC_.StartCooking(power, time);
@@ -58,7 +58,7 @@ namespace Microwave.Test.Integration
         [Test]
         public void CalledTurnOffTimerExpired()
         {
-            int time = 60;
+            int time = 3600;
             int power = 100;
             string str = "PowerTube turned off";
             CC_.StartCooking(power, time);

@@ -72,6 +72,7 @@ namespace Microwave.Classes.Controllers
                     break;
                 case States.SETTIME:
                     time += 1;
+                    //time = (time >= 60 ? 1 : time + 1);
                     myDisplay.ShowTime(time, 0);
                     break;
             }

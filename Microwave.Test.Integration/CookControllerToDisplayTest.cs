@@ -14,7 +14,7 @@ namespace Microwave.Test.Integration
         private PowerTube PT_;
         private Display display_;
         private CookController CC_;
-        private System.IO.StringWriter SW_;
+        private StringWriter SW_;
 
         private ITimer timer_;
         [SetUp]
@@ -35,7 +35,7 @@ namespace Microwave.Test.Integration
 
             string str = "Display shows: 06:30";
             int power = 50;
-            int time = 390;
+            int time = 1000;
 
             CC_.StartCooking(power, time);
             timer_.TimeRemaining.Returns(390);
