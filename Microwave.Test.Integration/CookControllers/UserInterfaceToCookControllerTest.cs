@@ -5,17 +5,18 @@ using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.IO;
+using System.Threading;
 
 namespace Microwave.Test.Integration
 {
-    class CookControllerToUserInterfaceTest
+    class UserInterfaceToCookControllerTest
     {
         private Output output_;
         private PowerTube PT_;
         private Display display_;
         private CookController CC_;
         private StringWriter SW_;
-        private Timer timer_;
+        private Classes.Boundary.Timer timer_;
         private Light light_;
         private UserInterface UI_;
 
@@ -28,11 +29,11 @@ namespace Microwave.Test.Integration
         public void Setup()
         {
             output_ = new Output();
-            timer_ = new Timer();
+            timer_ = new Classes.Boundary.Timer();
             PT_ = new PowerTube(output_);
             display_ = new Display(output_);
             light_ = new Light(output_);
-            
+
             SW_ = new StringWriter();
             Console.SetOut(SW_);
 
@@ -47,51 +48,31 @@ namespace Microwave.Test.Integration
         }
 
         [Test]
-        public void MinimalPowerPressedWithTimeAndStart()
+        public void UICookingIsDoneNotCalledWithoutEvents()
         {
+            int power = 700;
+            int time = 3;
+            int timert = 3200;
 
-            powerB_.Pressed += Raise.Event();
-            timeB_.Pressed += Raise.Event();
-            startCancelB_.Pressed += Raise.Event();
+            CC_.StartCooking(power, time);
+            Thread.Sleep(timert);
 
-            StringAssert.Contains("PowerTube works with 50", SW_.ToString());
+            StringAssert.DoesNotContain("Display cleared", SW_.ToString());
         }
 
         [Test]
-        public void MaxPowerPressedWithTimeAndStart()
+        public void UICookingIsDoneCalledWithEvents()
         {
-            for (int i = 0; i < 14; i++)
-            {
-                powerB_.Pressed += Raise.Event();
-            }
-            timeB_.Pressed += Raise.Event();
-            startCancelB_.Pressed += Raise.Event();
+            int timert = 60200;
 
-            StringAssert.Contains("PowerTube works with 700", SW_.ToString());
-        }
-
-        [Test]
-        public void MinimalPowerPressedWithTimeAndStartThenStop()
-        {
-
-            powerB_.Pressed += Raise.Event();
-            timeB_.Pressed += Raise.Event();
-            startCancelB_.Pressed += Raise.Event();
-            startCancelB_.Pressed += Raise.Event();
-
-            StringAssert.Contains("PowerTube turned off", SW_.ToString());
-        }
-
-        [Test]
-        public void MinimalPowerPressedWithTimeAndStartThenOpenDoor()
-        {
-
-            powerB_.Pressed += Raise.Event();
-            timeB_.Pressed += Raise.Event();
-            startCancelB_.Pressed += Raise.Event();
             door_.Opened += Raise.Event();
+            door_.Closed += Raise.Event();
+            powerB_.Pressed += Raise.Event();
+            timeB_.Pressed += Raise.Event();
+            startCancelB_.Pressed += Raise.Event();
+            Thread.Sleep(timert);
 
-            StringAssert.Contains("PowerTube turned off", SW_.ToString());
+            StringAssert.Contains("Display cleared", SW_.ToString());
         }
     }
 }
