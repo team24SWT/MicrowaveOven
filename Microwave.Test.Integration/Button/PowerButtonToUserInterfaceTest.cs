@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Microwave.Test.Integration
 {
-    class PowerButtonToUserInterface
+    class PowerButtonToUserInterfaceTest
     {
         private Output output_;
         private Display display_;
@@ -39,10 +39,12 @@ namespace Microwave.Test.Integration
             timeB_ = Substitute.For<IButton>();
             startCancelB_ = Substitute.For<IButton>();
 
-            UI_ = new UserInterface(powerB_, timeB_, startCancelB_, door_, display_, light_, CC_);
-            CC_.UI = UI_;
             SW_ = new StringWriter();
             Console.SetOut(SW_);
+
+            UI_ = new UserInterface(powerB_, timeB_, startCancelB_, door_, display_, light_, CC_);
+            CC_.UI = UI_;
+            
         }
 
         [Test]
